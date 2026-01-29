@@ -1,3 +1,4 @@
+package Assignment_2;
 // Base class Employee
 class Employee {
     protected String name;
