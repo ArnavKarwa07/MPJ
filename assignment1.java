@@ -1,19 +1,29 @@
 import java.util.Scanner;
 
 class Student {
-    // Private data members (access specifiers)
     private String name;
     private int rollNo;
     private double[] marks;
     
-    // Constructor
-    public Student(String name, int rollNo, double[] marks) {
-        this.name = name;
-        this.rollNo = rollNo;
-        this.marks = marks;
+    public Student(Scanner scanner, int studentNumber) {
+        System.out.println("\n----- Student " + studentNumber + " -----");
+        
+        System.out.print("Enter Student Name: ");
+        this.name = scanner.nextLine();
+        
+        System.out.print("Enter Roll Number: ");
+        this.rollNo = scanner.nextInt();
+        
+        this.marks = new double[5];
+        System.out.println("\nEnter marks for 5 subjects (out of 100):");
+        for (int i = 0; i < 5; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            this.marks[i] = scanner.nextDouble();
+        }
+        
+        scanner.nextLine();
     }
     
-    // Method to calculate average marks
     public double calculateAverage() {
         double sum = 0;
         for (double mark : marks) {
@@ -22,7 +32,6 @@ class Student {
         return sum / marks.length;
     }
     
-    // Method to determine grade based on average
     public char getGrade() {
         double average = calculateAverage();
         
@@ -35,12 +44,10 @@ class Student {
         }
     }
     
-    // Method to calculate percentage
     public double calculatePercentage() {
         return calculateAverage();
     }
     
-    // Method to display student information
     public void displayInfo() {
         System.out.println("\n===== Student Information =====");
         System.out.println("Name: " + name);
@@ -55,7 +62,6 @@ class Student {
         System.out.println("===============================");
     }
     
-    // Getter methods
     public String getName() {
         return name;
     }
@@ -75,26 +81,27 @@ public class assignment1 {
         
         System.out.println("===== Student Grade Calculator =====\n");
         
-        // Taking student information
-        System.out.print("Enter Student Name: ");
-        String name = scanner.nextLine();
+        Student[] students = new Student[5];
         
-        System.out.print("Enter Roll Number: ");
-        int rollNo = scanner.nextInt();
-        
-        // Taking marks for 5 subjects
-        double[] marks = new double[5];
-        System.out.println("\nEnter marks for 5 subjects (out of 100):");
-        for (int i = 0; i < 5; i++) {
-            System.out.print("Subject " + (i + 1) + ": ");
-            marks[i] = scanner.nextDouble();
+        for (int s = 0; s < 5; s++) {
+            students[s] = new Student(scanner, s + 1);
         }
         
-        // Creating Student object using constructor
-        Student student = new Student(name, rollNo, marks);
+        System.out.println("\n\n===== ALL STUDENTS INFORMATION =====");
+        for (Student student : students) {
+            student.displayInfo();
+        }
         
-        // Displaying student information
-        student.displayInfo();
+        System.out.println("\n\n===== SUBJECT-WISE AVERAGES =====");
+        for (int subject = 0; subject < 5; subject++) {
+            double subjectTotal = 0;
+            for (Student student : students) {
+                subjectTotal += student.getMarks()[subject];
+            }
+            double subjectAverage = subjectTotal / 5;
+            System.out.println("Subject " + (subject + 1) + " Average: " + String.format("%.2f", subjectAverage));
+        }
+        System.out.println("===================================");
         
         scanner.close();
     }
